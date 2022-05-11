@@ -1,3 +1,5 @@
+import time
+
 import cv2
 import depthai as dai
 import numpy as np
@@ -23,8 +25,11 @@ def main():
             frameLeft = qLeft.get().getCvFrame()
             frameRight = qRight.get().getCvFrame()
             frameRGBScaled = cv2.resize(frameRGB, frameLeft.shape[:2][::-1])
-            print(frameLeft.shape, frameRight.shape, frameRGBScaled.shape)
-            cv2.imshow("left-right", np.hstack((frameLeft, frameRight)))
+            print(time.time(), frameLeft.shape, frameRight.shape, frameRGBScaled.shape)
+            cv2.imshow("rgb-left-right", np.hstack((
+                    frameRGBScaled,
+                    cv2.cvtColor(frameLeft, cv2.COLOR_GRAY2BGR),
+                    cv2.cvtColor(frameRight, cv2.COLOR_GRAY2BGR))))
             if cv2.waitKey(1) == ord('q'):
                 break
 
@@ -32,11 +37,10 @@ def createCamRgb(pipeline):
     camRgb = pipeline.createColorCamera()
     camRgb.setResolution(
             dai.ColorCameraProperties.SensorResolution.THE_1080_P)
-    focusValue = 135
+    focusValue = 100
     camRgb.initialControl.setManualFocus(focusValue)
     camRgb.setInterleaved(False)
     camRgb.setBoardSocket(dai.CameraBoardSocket.RGB)
-    #camRgb.setIspScale(1, 3)
     camRgb.initialControl.setManualFocus(focusValue)
     fps = 30
     camRgb.setFps(fps)
