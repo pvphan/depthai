@@ -9,8 +9,6 @@ RUN_FLAGS = \
 	--rm \
 	-it \
 	--network=host \
-    --privileged \
-    -v /dev/bus/usb:/dev/bus/usb \
     -e DISPLAY=$(DISPLAY) \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
 	--volume=${REPO_PATH}:${WORKDIR_PATH} \
