@@ -11,12 +11,12 @@ def main():
     camLeft = createCamMono(pipeline, "left")
     camRight = createCamMono(pipeline, "right")
 
-    device_info = dai.DeviceInfo()
-    device_info.state = dai.XLinkDeviceState.X_LINK_BOOTLOADER
-    device_info.desc.protocol = dai.XLinkProtocol.X_LINK_TCP_IP
-    device_info.desc.name = "192.168.0.225"
+    deviceInfo = dai.DeviceInfo()
+    deviceInfo.state = dai.XLinkDeviceState.X_LINK_BOOTLOADER
+    deviceInfo.desc.protocol = dai.XLinkProtocol.X_LINK_TCP_IP
+    deviceInfo.desc.name = "192.168.0.225"
 
-    with dai.Device(pipeline, device_info) as device:
+    with dai.Device(pipeline, deviceInfo) as device:
         qRgb = device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
         qLeft = device.getOutputQueue(name="left", maxSize=4, blocking=False)
         qRight = device.getOutputQueue(name="right", maxSize=4, blocking=False)
