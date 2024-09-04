@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'DepthAI SDK Docs'
-copyright = '2021, Luxonis'
+html_show_copyright=False
 author = 'Luxonis'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '1.13.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -36,6 +36,8 @@ extensions = [
     "sphinx_rtd_theme",
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
+    'autodocsumm',
+    'sphinx_tabs.tabs'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -70,6 +72,9 @@ html_css_files = [
 html_js_files = [
     'https://docs.luxonis.com/en/latest/_static/js/navbar.js',
 ]
+html_context = {
+    'meta_robots': '<meta name="robots" content="noindex, nofollow" />',
+}
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
