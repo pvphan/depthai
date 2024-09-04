@@ -11,10 +11,9 @@ def main():
     camLeft = createCamMono(pipeline, "left")
     camRight = createCamMono(pipeline, "right")
 
-    device_info = dai.DeviceInfo()
+    device_info = dai.DeviceInfo("192.168.20.4")
     device_info.state = dai.XLinkDeviceState.X_LINK_BOOTLOADER
     device_info.desc.protocol = dai.XLinkProtocol.X_LINK_TCP_IP
-    device_info.desc.name = "192.168.0.225"
 
     with dai.Device(pipeline, device_info) as device:
         qRgb = device.getOutputQueue(name="rgb", maxSize=4, blocking=False)
@@ -27,11 +26,15 @@ def main():
             frameRGBScaled = cv2.resize(frameRGB, frameLeft.shape[:2][::-1])
             print(time.time(), frameLeft.shape, frameRight.shape, frameRGBScaled.shape)
             cv2.imshow("rgb-left-right", np.hstack((
-                    frameRGBScaled,
-                    cv2.cvtColor(frameLeft, cv2.COLOR_GRAY2BGR),
-                    cv2.cvtColor(frameRight, cv2.COLOR_GRAY2BGR))))
+                frameRGBScaled,
+                frameLeft,
+                frameRight,
+            )))
+                    # cv2.cvtColor(frameLeft, cv2.COLOR_GRAY2BGR),
+                    # cv2.cvtColor(frameRight, cv2.COLOR_GRAY2BGR))))
             if cv2.waitKey(1) == ord('q'):
                 break
+
 
 def createCamRgb(pipeline):
     camRgb = pipeline.createColorCamera()
